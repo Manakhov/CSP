@@ -8,6 +8,7 @@
 #include "qcustomplot.h"
 #include "blocks/gain/gain.h"
 #include "blocks/integrator/integrator.h"
+#include "blocks/controlObject/controlobject.h"
 
 namespace Ui {
 class Widget;
@@ -41,8 +42,7 @@ private:
     // --------------------------
     // Add pointer to the object here
     // --------------------------
-    gain *object;   // <=
-    integrator *m_integrator;
+    ControlObject *m_controlObject;
     // --------------------------
     // Add pointer to the object here
     // --------------------------

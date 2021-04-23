@@ -71,8 +71,7 @@ Widget::Widget(QWidget *parent) :
     // --------------------------
     // Create the object here
     // --------------------------
-    object = new gain(2.0);
-    m_integrator = new integrator(-1.0);
+    m_controlObject = new ControlObject(0.0);
     // --------------------------
     // Create the object here
     // --------------------------
@@ -101,7 +100,7 @@ Widget::~Widget()
     // --------------------------
     // Delete the object here
     // --------------------------
-    delete object;
+    delete m_controlObject;
     // --------------------------
     // Delete the object here
     // --------------------------
@@ -134,7 +133,7 @@ void Widget::update() {
 	}
 
 	inputPlot->graph(0)->addData(relativeTime / 1000.0, signal);
-    outputPlot->graph(0)->addData(relativeTime / 1000.0, m_integrator->state());
+    outputPlot->graph(0)->addData(relativeTime / 1000.0, m_controlObject->getOutput());
 
     inputPlot->replot();
     outputPlot->replot();
@@ -142,8 +141,7 @@ void Widget::update() {
     // --------------------------
     // Update the object here
     // --------------------------
-    object->update(signal);
-    m_integrator->update(signal, dt / 1000.0);
+    m_controlObject->update(signal, dt / 1000.0);
     // --------------------------
     // Update the object here
     // --------------------------
