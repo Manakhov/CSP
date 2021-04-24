@@ -7,8 +7,6 @@
 class Generator
 {
 public:
-    Generator(float a11_cos, float a12_cos, float a21_cos, float a22_cos, float c1_cos, float c2_cos,
-              float a_exp, float c_exp, float x1_cos, float x2_cos, float x_exp);
     Generator(float a11, float a12, float a13, float a21, float a22, float a23, float a31, float a32, float a33,
               float c1, float c2, float c3, float x1, float x2, float x3);
     ~Generator();
