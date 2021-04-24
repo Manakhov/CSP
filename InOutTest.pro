@@ -25,6 +25,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     blocks/DcontrolObject/dcontrolobject.cpp \
+    blocks/Dgenerator/dgenerator.cpp \
     blocks/Generator/generator.cpp \
     blocks/controlObject/controlobject.cpp \
     blocks/integrator/integrator.cpp \
@@ -35,6 +36,7 @@ SOURCES += \
 
 HEADERS += \
     blocks/DcontrolObject/dcontrolobject.h \
+    blocks/Dgenerator/dgenerator.h \
     blocks/Generator/generator.h \
     blocks/controlObject/controlobject.h \
     blocks/integrator/integrator.h \

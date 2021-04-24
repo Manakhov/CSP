@@ -7,9 +7,9 @@
 // Set stop time here
 // --------------------------
 #define ENDOFTIME 40
-#define SAMPLINGTIMEMSEC 10 // 100 Hz
+//#define SAMPLINGTIMEMSEC 10 // 100 Hz
 //#define SAMPLINGTIMEMSEC 40 // 25 Hz
-//#define SAMPLINGTIMEMSEC 200 // 5 Hz
+#define SAMPLINGTIMEMSEC 200 // 5 Hz
 // --------------------------
 // Set stop time here
 // --------------------------
@@ -66,29 +66,32 @@ Widget::Widget(QWidget *parent) :
     // --------------------------
     // Set axes ranges so see all data:
     inputPlot->xAxis->setRange(0, ENDOFTIME);
-    inputPlot->yAxis->setRange(-2, 3);
+    inputPlot->yAxis->setRange(-2, 3); // (-7, 9);
     outputPlot->xAxis->setRange(0, ENDOFTIME);
-    outputPlot->yAxis->setRange(-2, 3);
+    outputPlot->yAxis->setRange(-2, 3); // (-7, 9);
 
     // --------------------------
     // Create the object here
     // --------------------------
 
-    m_generator = new Generator(0, 1, 0, -0.25, 0, 0, 0, 0, -0.5, 1, 0, 1, 1.0, 0.0, 1.0);
+    // for Constant
+//    m_generator = new Generator(0, 1, 0, -0.25, 0, 0, 0, 0, -0.5, 1, 0, 1, 1.0, 0.0, 1.0);
+//    m_controlObject = new ControlObject(0, 1, 0, 0, 0, 1, -1, -4, -4, 0, 0, 1, 2, 4, 4, 0, 0.0, 0.0, 0.0);
 
-    m_controlObject = new ControlObject(0, 1, 0, 0, 0, 1, -1, -4, -4, 0, 0, 1, 2, 4, 4, 0, 0.0, 0.0, 0.0);
-
-    // for 100 Hz
+    // for Discrete 100 Hz
+//    m_dgenerator = new Dgenerator(1.0000, 0.0100, 0, -0.0025, 1.0000, 0, 0, 0, 0.9950, 1, 0, 1, 1.0, 0.0, 1.0);
 //    m_dcontrolObject = new DcontrolObject(1.0000, 0.0100, 0.0000, -0.0000, 0.9998, 0.0098, -0.0098, -0.0393, 0.9606,
 //                                          0.0000, 0.0000, 0.0098, 2, 4, 4, 0, 0.0, 0.0, 0.0);
 
-    // for 25 Hz
+    // for Discrete 25 Hz
+//    m_dgenerator = new Dgenerator(0.9998, 0.0400, 0, -0.0100, 0.9998, 0, 0, 0, 0.9802, 1, 0, 1, 1.0, 0.0, 1.0);
 //    m_dcontrolObject = new DcontrolObject(1.0000, 0.0400, 0.0008, -0.0008, 0.9970, 0.0369, -0.0369, -0.1485, 0.8493,
 //                                          0.0000, 0.0008, 0.0369, 2, 4, 4, 0, 0.0, 0.0, 0.0);
 
-    // for 5 Hz
-//    m_dcontrolObject = new DcontrolObject(0.9989, 0.1956, 0.0154, -0.0154, 0.9374, 0.1340, -0.1340, -0.5514, 0.4013,
-//                                          0.0011, 0.0154, 0.1340, 2, 4, 4, 0, 0.0, 0.0, 0.0);
+    // for Discrete 5 Hz
+    m_dgenerator = new Dgenerator(0.9950, 0.1997, 0, -0.0499, 0.9950, 0, 0, 0, 0.9048, 1, 0, 1, 1.0, 0.0, 1.0);
+    m_dcontrolObject = new DcontrolObject(0.9989, 0.1956, 0.0154, -0.0154, 0.9374, 0.1340, -0.1340, -0.5514, 0.4013,
+                                          0.0011, 0.0154, 0.1340, 2, 4, 4, 0, 0.0, 0.0, 0.0);
 
     // --------------------------
     // Create the object here
@@ -118,9 +121,15 @@ Widget::~Widget()
     // --------------------------
     // Delete the object here
     // --------------------------
-    delete m_generator;
-    delete m_controlObject;
-//    delete m_dcontrolObject;
+
+    // for Constant
+//    delete m_generator;
+//    delete m_controlObject;
+
+    // for Discrete
+    delete m_dgenerator;
+    delete m_dcontrolObject;
+
     // --------------------------
     // Delete the object here
     // --------------------------
@@ -131,9 +140,13 @@ void Widget::update() {
 	// --------------------------
 	// Replace input signal with ours
 	// --------------------------
-//    double signal = std::sin(relativeTime / 1000.0);
-//    double signal = 10;
-    double signal = m_generator->getOutput();
+
+    // for Constant
+//    double signal = m_generator->getOutput();
+
+    // for Discrete
+    double signal = m_dgenerator->getOutput();
+
 	// --------------------------
 	// Replace input signal with ours
 	// --------------------------
@@ -155,8 +168,8 @@ void Widget::update() {
 	}
 
     inputPlot->graph(0)->addData(relativeTime / 1000.0, signal);
-    outputPlot->graph(0)->addData(relativeTime / 1000.0, m_controlObject->getOutput());
-//    outputPlot->graph(0)->addData(relativeTime / 1000.0, m_dcontrolObject->getOutput());
+//    outputPlot->graph(0)->addData(relativeTime / 1000.0, m_controlObject->getOutput()); // for Constant
+    outputPlot->graph(0)->addData(relativeTime / 1000.0, m_dcontrolObject->getOutput()); // for Discrete
 
     inputPlot->replot();
     outputPlot->replot();
@@ -164,9 +177,15 @@ void Widget::update() {
     // --------------------------
     // Update the object here
     // --------------------------
-    signal = m_generator->update(dt / 1000.0);
-    m_controlObject->update(signal, dt / 1000.0);
-//    m_dcontrolObject->update(signal);
+
+    // for Constant
+//    signal = m_generator->update(dt / 1000.0);
+//    m_controlObject->update(signal, dt / 1000.0);
+
+    // for Discrete
+    signal = m_dgenerator->update();
+    m_dcontrolObject->update(signal);
+
     // --------------------------
     // Update the object here
     // --------------------------

@@ -11,6 +11,7 @@
 #include "blocks/controlObject/controlobject.h"
 #include "blocks/DcontrolObject/dcontrolobject.h"
 #include "blocks/Generator/generator.h"
+#include "blocks/Dgenerator/dgenerator.h"
 
 namespace Ui {
 class Widget;
@@ -44,10 +45,15 @@ private:
     // --------------------------
     // Add pointer to the object here
     // --------------------------
-    Generator *m_generator;
-    ControlObject *m_controlObject;
-//    DcontrolObject *m_dcontrolObject;
-    // --------------------------
+
+    // for Constant
+//    Generator *m_generator;
+//    ControlObject *m_controlObject;
+
+    // for Discrete
+    Dgenerator *m_dgenerator;
+    DcontrolObject *m_dcontrolObject;
+
     // Add pointer to the object here
     // --------------------------
 };
