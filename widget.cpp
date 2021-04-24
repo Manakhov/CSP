@@ -7,7 +7,9 @@
 // Set stop time here
 // --------------------------
 #define ENDOFTIME 25
-#define SAMPLINGTIMEMSEC 10
+#define SAMPLINGTIMEMSEC 10 // 100 Hz
+//#define SAMPLINGTIMEMSEC 40 // 25 Hz
+//#define SAMPLINGTIMEMSEC 200 // 5 Hz
 // --------------------------
 // Set stop time here
 // --------------------------
@@ -71,7 +73,21 @@ Widget::Widget(QWidget *parent) :
     // --------------------------
     // Create the object here
     // --------------------------
-    m_controlObject = new ControlObject(0, 1, 0, 0, 0, 1, -1, -4, -4, 0, 0, 1, 2, 4, 4, 0, 0.0, 0.0, 0.0);
+
+//    m_controlObject = new ControlObject(0, 1, 0, 0, 0, 1, -1, -4, -4, 0, 0, 1, 2, 4, 4, 0, 0.0, 0.0, 0.0);
+
+    // for 100 Hz
+    m_dcontrolObject = new DcontrolObject(1.0000, 0.0100, 0.0000, -0.0000, 0.9998, 0.0098, -0.0098, -0.0393, 0.9606,
+                                          0.0000, 0.0000, 0.0098, 2, 4, 4, 0, 0.0, 0.0, 0.0);
+
+    // for 25 Hz
+//    m_dcontrolObject = new DcontrolObject(1.0000, 0.0400, 0.0008, -0.0008, 0.9970, 0.0369, -0.0369, -0.1485, 0.8493,
+//                                          0.0000, 0.0008, 0.0369, 2, 4, 4, 0, 0.0, 0.0, 0.0);
+
+    // for 5 Hz
+//    m_dcontrolObject = new DcontrolObject(0.9989, 0.1956, 0.0154, -0.0154, 0.9374, 0.1340, -0.1340, -0.5514, 0.4013,
+//                                          0.0011, 0.0154, 0.1340, 2, 4, 4, 0, 0.0, 0.0, 0.0);
+
     // --------------------------
     // Create the object here
     // --------------------------
@@ -100,7 +116,8 @@ Widget::~Widget()
     // --------------------------
     // Delete the object here
     // --------------------------
-    delete m_controlObject;
+//    delete m_controlObject;
+    delete m_dcontrolObject;
     // --------------------------
     // Delete the object here
     // --------------------------
@@ -134,7 +151,8 @@ void Widget::update() {
 	}
 
 	inputPlot->graph(0)->addData(relativeTime / 1000.0, signal);
-    outputPlot->graph(0)->addData(relativeTime / 1000.0, m_controlObject->getOutput());
+//    outputPlot->graph(0)->addData(relativeTime / 1000.0, m_controlObject->getOutput());
+    outputPlot->graph(0)->addData(relativeTime / 1000.0, m_dcontrolObject->getOutput());
 
     inputPlot->replot();
     outputPlot->replot();
@@ -142,7 +160,8 @@ void Widget::update() {
     // --------------------------
     // Update the object here
     // --------------------------
-    m_controlObject->update(signal, dt / 1000.0);
+//    m_controlObject->update(signal, dt / 1000.0);
+    m_dcontrolObject->update(signal);
     // --------------------------
     // Update the object here
     // --------------------------

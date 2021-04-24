@@ -9,6 +9,7 @@
 #include "blocks/gain/gain.h"
 #include "blocks/integrator/integrator.h"
 #include "blocks/controlObject/controlobject.h"
+#include "blocks/DcontrolObject/dcontrolobject.h"
 
 namespace Ui {
 class Widget;
@@ -42,7 +43,8 @@ private:
     // --------------------------
     // Add pointer to the object here
     // --------------------------
-    ControlObject *m_controlObject;
+//    ControlObject *m_controlObject;
+    DcontrolObject *m_dcontrolObject;
     // --------------------------
     // Add pointer to the object here
     // --------------------------
