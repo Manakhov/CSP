@@ -13,7 +13,7 @@ public:
     float getOutput() const;
     float update(float input, float dt);
 
-public:
+private:
     integrator* m_integrator_X1;
     integrator* m_integrator_X2;
     integrator* m_integrator_X3;
