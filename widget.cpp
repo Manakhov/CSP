@@ -64,14 +64,14 @@ Widget::Widget(QWidget *parent) :
     // --------------------------
     // Set axes ranges so see all data:
     inputPlot->xAxis->setRange(0, ENDOFTIME);
-    inputPlot->yAxis->setRange(-3, 3);
+    inputPlot->yAxis->setRange(0, 30);
     outputPlot->xAxis->setRange(0, ENDOFTIME);
-    outputPlot->yAxis->setRange(-3, 3);
+    outputPlot->yAxis->setRange(0, 30);
 
     // --------------------------
     // Create the object here
     // --------------------------
-    m_controlObject = new ControlObject(0.0);
+    m_controlObject = new ControlObject(0.0, 0.0, 0.0);
     // --------------------------
     // Create the object here
     // --------------------------
@@ -111,7 +111,8 @@ void Widget::update() {
 	// --------------------------
 	// Replace input signal with ours
 	// --------------------------
-	double signal = std::sin(relativeTime / 1000.0);
+    // double signal = std::sin(relativeTime / 1000.0);
+    double signal = 10;
 	// --------------------------
 	// Replace input signal with ours
 	// --------------------------
