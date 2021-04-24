@@ -71,7 +71,7 @@ Widget::Widget(QWidget *parent) :
     // --------------------------
     // Create the object here
     // --------------------------
-    m_controlObject = new ControlObject(0.0, 0.0, 0.0);
+    m_controlObject = new ControlObject(0, 1, 0, 0, 0, 1, -1, -4, -4, 0, 0, 1, 2, 4, 4, 0, 0.0, 0.0, 0.0);
     // --------------------------
     // Create the object here
     // --------------------------
